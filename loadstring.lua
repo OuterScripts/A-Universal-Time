@@ -1,5 +1,6 @@
 local playerservice = game:GetService("Players")
-local lplr = game:GetService("Players").LocalPlayer
+local lplr = playerservice.LocalPlayer
+local ReplicatedStorage = game:GetService('ReplicatedStorage')
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "A Universal Time", HidePremium = false, SaveConfig = false, IntroEnabled = false})
@@ -18,13 +19,12 @@ local Tab2 = Window:MakeTab({
 	PremiumOnly = false
 })
 
-UniversalTime = {
+local UniversalTime = {
     local ResetCharacterRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("ResetCharacter")
 }
 
 function kill()
-	LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
-
+	lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
 	UniversalTime.ResetCharacterRemote:FireServer()
 end
 
@@ -34,6 +34,7 @@ Tab2:AddToggle({
 	Callback = function()
 		while true do
             kill()
+			task.wait()
         end
 	end    
 })
